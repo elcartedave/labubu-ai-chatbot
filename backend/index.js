@@ -7,8 +7,8 @@ import { query } from "./controllers/chat.Controllers.js";
 const app = express();
 app.use(cors(
      {
-        origin: [],
-        methods: ["POST"],
+        origin: ["https://labubu-ai-chatbot-frontend.vercel.app"],
+        methods: ["POST", "GET"],
     }
 ))
 app.use(express.json());

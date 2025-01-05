@@ -4,7 +4,7 @@ export const useUserStore = create((set)=>({
     users:[],
     setUsers: (users) => set({ users }),
     createUser: async(newUser, login) => {
-        const res = await fetch("http://localhost:3000/signup", {
+        const res = await fetch("https://labubu-ai-chatbot.vercel.app/signup", {
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -23,7 +23,7 @@ export const useUserStore = create((set)=>({
     },
     logInUser: async(user, login) =>{
         if(!user.email || !user.password) return {success: false, message: "Please fill in required fields"}
-        const res = await fetch("http://localhost:3000/login", {
+        const res = await fetch("https://labubu-ai-chatbot.vercel.app/login", {
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
