@@ -17,6 +17,6 @@ export async function getGroqChatCompletion(messages) {
   ]
   return groq.chat.completions.create({
     messages: finalMessage.concat(messages),
-    model: "llama-3.2-90b-vision-preview",
+    model: "llama-3.3-70b-versatile",
   });
 }
