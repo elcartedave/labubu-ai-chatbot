@@ -1,5 +1,5 @@
 import { Box, Button, Container, Flex, HStack, Text, Textarea, useColorModeValue, useToast, VStack } from "@chakra-ui/react";
-import React, {  useRef, useState } from "react";
+import React, {  useEffect, useRef, useState } from "react";
 import { useChatStore } from "../storage/chats";
 
 const Dashboard = () => {
@@ -26,8 +26,6 @@ const Dashboard = () => {
     const newMessage = { role: "user", content: input.trim() };
     const updatedChats = [...chats, newMessage];
     setChats(updatedChats);
-    console.log("chats",chats)
-    console.log("updated chats: ", updatedChats)
     // Send the updated chats
     setInput("");
     const{success, message}= await sendMessage(updatedChats);
@@ -42,11 +40,8 @@ const Dashboard = () => {
     }else{
       const responseMessage = {role:"assistant", content: message}
       const newUpdatedChats = [...updatedChats, responseMessage]
-      console.log("newUpdatedChats: ",newUpdatedChats)
       setChats(newUpdatedChats)
-      if (chatBoxRef.current) {
-        chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
-      }
+      
     }
 
     
@@ -58,6 +53,12 @@ const Dashboard = () => {
       if(input.trim()!=="") handleSend();
     } 
   };
+
+   useEffect(() => {
+    if (chatBoxRef.current) {
+      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+    }
+  }, [chats]); // Dependency on chats, this triggers when chats is updated
 
   return (
     <Container  maxW={"full"}  maxHeight="100vh" display="flex" flexDirection="column">
@@ -72,6 +73,7 @@ const Dashboard = () => {
     "::-webkit-scrollbar-track": {
       background: "transparent", // Make the track transparent
     },
+    "scrollBehavior":"smooth"
   }}>
       {chats.map((message, index) => (
         <Flex
