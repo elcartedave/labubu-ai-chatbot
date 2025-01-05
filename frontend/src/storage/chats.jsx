@@ -8,7 +8,9 @@ export const useChatStore = create((set)=>({
     setChats: (chats) => set({chats}),
     sendMessage: async(messages) =>{
         try {
-            const res = await fetch("https://labubu-ai-chatbot.vercel.app/sendMessage",{
+            const isDeployment = true
+            const url = isDeployment ? "https://labubu-ai-chatbot.vercel.app/sendMessage" : "http://localhost:3000/sendMessage"
+            const res = await fetch(url,{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json"

@@ -20,7 +20,7 @@ const Navbar = () => {
     };
 
     return (
-        <Container maxW={"full"} px={4} >
+        <Container maxW={"full"} px={4} mb={4} >
             <Flex 
                 alignItems={"center"}
                 justifyContent={"space-between"}
@@ -29,7 +29,7 @@ const Navbar = () => {
                     sm:"row"
                 }}
             >
-                <VStack spacing={-0.5} mb={2} >
+                <VStack spacing={-0.5}  >
     <Text 
         fontSize={{ sm: "50" }}
         fontWeight={"bold"}

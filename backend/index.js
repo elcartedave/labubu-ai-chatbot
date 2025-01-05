@@ -5,12 +5,18 @@ import { login, signup } from "./controllers/authController.js";
 import { query } from "./controllers/chat.Controllers.js";
 
 const app = express();
-app.use(cors(
-     {
-        origin: ["https://labubu-ai-chatbot-frontend.vercel.app"],
-        methods: ["POST", "GET"],
-    }
-))
+const isDeployment = true
+if(isDeployment){
+    app.use(cors(
+        {
+            origin: ["https://labubu-ai-chatbot-frontend.vercel.app"],
+            methods: ["POST", "GET"],
+        }
+    ))
+}else{
+    app.use(cors())
+}
+
 app.use(express.json());
 
 try{

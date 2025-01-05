@@ -62,7 +62,7 @@ const Dashboard = () => {
 
   return (
     <Container  maxW={"full"}  maxHeight="100vh" display="flex" flexDirection="column">
-    <Box flex="1" overflowY="auto" p={4} marginBottom={"30vh"} ref={chatBoxRef}   sx={{
+    <Box flex="1" overflowY="auto" ref={chatBoxRef} pb={200}  sx={{
     "::-webkit-scrollbar": {
       width: "4px", // Set the width of the scrollbar
     },
@@ -80,10 +80,11 @@ const Dashboard = () => {
           key={index}
           justify={message.role === "user" ? "flex-end" : "flex-start"}
           mb={2}
+          paddingBottom={5}
         >
           <Box
             p={4}
-            maxW="50%"
+            maxW="60%"
             bg={message.role === "user" ? "blue.500" : useColorModeValue("gray.200","gray.700")}
             color={message.role === "user" ? "white" : useColorModeValue("black","white")}
             borderRadius="md"
@@ -104,7 +105,7 @@ const Dashboard = () => {
       width={"full"}
       
     >
-      <HStack width="full" marginBottom={1.5}>
+      <HStack width="full" margin={1.5} marginBottom={0}>
         <Textarea
           value={input}
           size="lg"
@@ -112,6 +113,8 @@ const Dashboard = () => {
           placeholder="Enter your concerns here"
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
+          backgroundColor={useColorModeValue("white","gray.800")}
+          borderColor={useColorModeValue("gray.900","gray.100")}
         />
         <Button height={20} width={20} onClick={handleSend} colorScheme="blue">
           Send
