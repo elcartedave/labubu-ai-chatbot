@@ -1,11 +1,12 @@
 import { Box, Button, Container, Flex, HStack, Text, Textarea, useColorModeValue, useToast, VStack } from "@chakra-ui/react";
-import React, {  useState } from "react";
+import React, {  useRef, useState } from "react";
 import { useChatStore } from "../storage/chats";
 
 const Dashboard = () => {
   const [input, setInput] = useState("");
   const { chats, setChats, sendMessage } = useChatStore();
   const toast = useToast()
+  const chatBoxRef = useRef(null); //para sa autoscroll
 
   const handleSend = async () => {
     if (input.trim() === ""){
@@ -43,6 +44,9 @@ const Dashboard = () => {
       const newUpdatedChats = [...updatedChats, responseMessage]
       console.log("newUpdatedChats: ",newUpdatedChats)
       setChats(newUpdatedChats)
+      if (chatBoxRef.current) {
+        chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+      }
     }
 
     
@@ -57,7 +61,7 @@ const Dashboard = () => {
 
   return (
     <Container  maxW={"full"}  maxHeight="100vh" display="flex" flexDirection="column">
-    <Box flex="1" overflowY="auto" p={4} marginBottom={"30vh"}   sx={{
+    <Box flex="1" overflowY="auto" p={4} marginBottom={"30vh"} ref={chatBoxRef}   sx={{
     "::-webkit-scrollbar": {
       width: "4px", // Set the width of the scrollbar
     },
