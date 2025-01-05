@@ -5,7 +5,12 @@ import { login, signup } from "./controllers/authController.js";
 import { query } from "./controllers/chat.Controllers.js";
 
 const app = express();
-app.use(cors())
+app.use(cors(
+     {
+        origin: [],
+        methods: ["POST"],
+    }
+))
 app.use(express.json());
 
 try{
