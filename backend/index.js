@@ -9,7 +9,7 @@ const isDeployment = true
 if(isDeployment){
     app.use(cors(
         {
-            origin: ["https://labubu-ai-chatbot-frontend.vercel.app"],
+            origin: ["https://labubu-ai-guru.vercel.app"],
             methods: ["POST", "GET"],
         }
     ))
