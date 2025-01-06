@@ -1,6 +1,10 @@
 import Groq from "groq-sdk";
-
+import axios from "axios";
 const groq = new Groq({apiKey: "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"});
+const client = {
+  apiKey: "0c5f65af-fc44-4a0d-b8d1-b9105d82a5d0",
+  baseUrl: "https://api.sambanova.ai/v1",
+};
 
 export async function main(messages){
     const chatCompletion = await getGroqChatCompletion(messages);
@@ -15,8 +19,18 @@ export async function getGroqChatCompletion(messages) {
     },
  
   ]
-  return groq.chat.completions.create({
-    messages: finalMessage.concat(messages),
-    model: "llama-3.3-70b-versatile",
-  });
+  const response = await axios.post(
+    `${client.baseUrl}/chat/completions`,
+    {
+      messages:finalMessage.concat(messages),
+      model: "Meta-Llama-3.1-405B-Instruct",
+    },
+     {
+        headers: {
+          "Authorization": `Bearer ${client.apiKey}`,
+          "Content-Type": "application/json",
+        },
+      }
+  );
+  return response.data
 }
