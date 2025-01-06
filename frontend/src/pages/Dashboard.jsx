@@ -1,12 +1,109 @@
-import { Box, Button, Container, Flex, HStack, Text, Textarea, useColorModeValue, useToast, VStack } from "@chakra-ui/react";
+import { Box, Button, Center, Container, Flex, HStack, Image, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Text, Textarea, useColorModeValue, useDisclosure, useToast, VStack } from "@chakra-ui/react";
 import React, {  useEffect, useRef, useState } from "react";
 import { useChatStore } from "../storage/chats";
 
+const VerticallyCenter=({isOpen, onClose, onOpen, image}) => {
+  return (
+    <>
+      <Modal size={{sm: "sm", md:"md", lg:"lg"}} onClose={onClose} isOpen={isOpen} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader alignSelf={"center"} fontSize={{sm:"23", md:"27", lg:"31"}}>Thinking</ModalHeader>
+          <ModalBody>
+            <VStack>
+              <Image src={image}/>
+              <Text fontSize={{
+              base: "19",
+              md:"21",
+              lg:"23"
+              }}>Sandali lang!</Text>
+            </VStack>
+            
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
+  )
+}
 const Dashboard = () => {
   const [input, setInput] = useState("");
   const { chats, setChats, sendMessage } = useChatStore();
+  const [sentiment, setSentiment] = useState("greetings");
   const toast = useToast()
   const chatBoxRef = useRef(null); //para sa autoscroll
+  const [imageIndex, setImageIndex] = useState(null);
+  const { isOpen, onOpen, onClose } = useDisclosure(); // Modal state
+
+  function getRandomInt(min, max) {
+    min = Math.ceil(min); // Round up to the nearest whole number
+    max = Math.floor(max); // Round down to the nearest whole number
+    console.log("returned index:", Math.floor(Math.random() * (max - min + 1)) + min)
+    return Math.floor(Math.random() * (max - min + 1)) + min; // Inclusive of both min and max
+  }
+
+
+ 
+
+  useEffect(() => {
+    if (sentiment) {
+      console.log("useEffect invoked due to sentiment change:", sentiment);
+      let newIndex = null;
+      if (sentiment.includes("friendly")) newIndex = getRandomInt(0, friendlyImages.length - 1);
+      else if (sentiment.includes("cheerful")) newIndex = getRandomInt(0, cheerfulImages.length - 1);
+      else if (sentiment.includes("worried")) newIndex = getRandomInt(0, worriedImages.length - 1);
+      else if (sentiment.includes("greetings")) newIndex = 0;
+      else if (sentiment.includes("advisory")) newIndex = getRandomInt(0, advisoryImages.length - 1);
+      else if (sentiment.includes("supportive")) newIndex = getRandomInt(0, supportiveImages.length - 1);
+  
+      console.log("Setting new imageIndex:", newIndex);
+      setImageIndex(newIndex);
+    }
+  }, [sentiment]); // Re-run whenever sentiment changes
+
+  const cheerfulImages = [
+    "cheerful_1.png",
+    "cheerful_2.png",
+    "cheerful_3.png",
+  ]
+  const thinkingImages = [
+     "thinking_1.png",
+    "thinking_2.png",
+  ]
+  const worriedImages = [
+    "worried_1.png",
+    "worried_2.png",
+  ]
+  const greetings =  "greetings.png"
+
+  const friendlyImages = [
+    "friendly_1.png",
+    "friendly_2.png",
+    "friendly_3.png",
+    "friendly_4.png",
+    
+  ]
+
+  const advisoryImages = [
+    "advisory_1.png",
+    "advisory_2.png"
+  ]
+
+  const conflictedImage = "conflicted.png"
+  const curiousImage =   "curious.png"
+  const empatheticImage =  "empathetic_1.png"
+  const excitedImage =   "excited_1.png"
+  const playfulImage =   "playful.png"
+  const reassuringImage =   "reassuring.png"
+  const romanticImage =   "romantic.png"
+  const supportiveImages =   [
+    "supportive_1.png",
+    "supportive_2.png",
+    "supportive_3.png",
+    "supportive_4.png",
+    "supportive_5.png",
+  ]
+  const sympatheticImage =   "sympathetic.png"
+  
 
   const handleSend = async () => {
     if (input.trim() === ""){
@@ -21,14 +118,14 @@ const Dashboard = () => {
     };
 
 
-
+    onOpen()
     // Append the new message to the chat list
     const newMessage = { role: "user", content: input.trim() };
     const updatedChats = [...chats, newMessage];
     setChats(updatedChats);
     // Send the updated chats
     setInput("");
-    const{success, message}= await sendMessage(updatedChats);
+    const{success, message, sentiment}= await sendMessage(updatedChats);
     if(!success){
       toast({
         title:"Error",
@@ -41,6 +138,10 @@ const Dashboard = () => {
       const responseMessage = {role:"assistant", content: message}
       const newUpdatedChats = [...updatedChats, responseMessage]
       setChats(newUpdatedChats)
+      setSentiment(sentiment.toLowerCase())
+      onClose()
+     
+      
       
     }
 
@@ -75,8 +176,42 @@ const Dashboard = () => {
     },
     "scrollBehavior":"smooth"
   }}>
-      {chats.map((message, index) => (
-        <Flex
+      {chats.map((message, index)=> {
+        const isLast = index === chats.length - 1 && message.role==="assistant";
+        console.log("imageIndex:",imageIndex,"sentiment: ", sentiment)
+        return (
+        isLast ? 
+        <>
+         <Center>
+          <VStack paddingLeft={{base:25, md: 30, lg: 35}} paddingRight={{base: 25, md: 30, lg:35}} paddingBottom={{base: 4, md: 7, lg:10}}>
+           <Image 
+            src={
+                sentiment.toLowerCase().includes("greetings") ? greetings :
+                sentiment.toLowerCase().includes("friendly") ? friendlyImages[imageIndex] :
+                sentiment.toLowerCase().includes("cheerful") ? cheerfulImages[imageIndex] :
+                sentiment.toLowerCase().includes("supportive")? supportiveImages[imageIndex]:
+                sentiment.toLowerCase().includes("empathetic") ? empatheticImage:
+                sentiment.toLowerCase().includes("romantic") ? romanticImage:
+                sentiment.toLowerCase().includes("advisory")? advisoryImages[imageIndex]:
+                sentiment.toLowerCase().includes("excited")? excitedImage :
+                sentiment.toLowerCase().includes("curious")? curiousImage :
+                sentiment.toLowerCase().includes("reassuring")? reassuringImage :
+                sentiment.toLowerCase().includes("playful")? playfulImage :
+                sentiment.toLowerCase().includes("sympathetic")? sympatheticImage :
+                sentiment.toLowerCase().includes("conflicted")? conflictedImage :
+                sentiment.toLowerCase().includes("worried")? worriedImages[imageIndex] :
+                friendlyImages[1]
+            } 
+           boxSize={{base: '180px', md: '220px', lg:'270px'}}/> 
+            <Text fontSize={{
+              base: "17",
+              md:"19",
+              lg:"21"
+              }} fontFamily={"arial"}>{message.content}</Text>
+          </VStack>
+          </Center> 
+        </>:
+        (<Flex
           key={index}
           justify={message.role === "user" ? "flex-end" : "flex-start"}
           mb={2}
@@ -84,16 +219,18 @@ const Dashboard = () => {
         >
           <Box
             p={4}
-            maxW="60%"
+             maxW={{ base: "95%", md: "80%", lg: "60%" }} 
             bg={message.role === "user" ? "blue.500" : useColorModeValue("gray.200","gray.700")}
             color={message.role === "user" ? "white" : useColorModeValue("black","white")}
             borderRadius="md"
             boxShadow="sm"
           >
-            <Text>{message.content}</Text>
+              <Text fontSize={17}
+              >{message.content}</Text>
           </Box>
-        </Flex>
-      ))}
+        </Flex>)
+         
+      )})}
     </Box>
 
     {/* Footer with input and send button */}
@@ -105,7 +242,7 @@ const Dashboard = () => {
       width={"full"}
       
     >
-      <HStack width="full" margin={1.5} marginBottom={0}>
+      <HStack width="full" paddingBottom={1.5} marginTop={1.5} marginLeft={1.5} marginRight={1.5} bg={useColorModeValue("white","gray.800")}>
         <Textarea
           value={input}
           size="lg"
@@ -121,6 +258,7 @@ const Dashboard = () => {
         </Button>
       </HStack>
     </Flex>
+    <VerticallyCenter isOpen={isOpen} onClose={onClose} onOpen={onOpen} image={thinkingImages[1]}/>
   </Container>
   );
 };

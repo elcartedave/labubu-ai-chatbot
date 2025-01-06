@@ -8,7 +8,7 @@ export const useChatStore = create((set)=>({
     setChats: (chats) => set({chats}),
     sendMessage: async(messages) =>{
         try {
-            const isDeployment = true
+            const isDeployment = false
             const url = isDeployment ? "https://labubu-ai-chatbot.vercel.app/sendMessage" : "http://localhost:3000/sendMessage"
             const res = await fetch(url,{
                 method:"POST",
@@ -21,7 +21,7 @@ export const useChatStore = create((set)=>({
             if(!data.success){
                 return {success: false, message: data.message}
             }
-            return {success: data.success, message: data.message}
+            return {success: data.success, message: data.message, sentiment: data.sentiment}
         } catch (error) {
             return {success: false, message: error.message}
         }

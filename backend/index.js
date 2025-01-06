@@ -5,7 +5,7 @@ import { login, signup } from "./controllers/authController.js";
 import { query } from "./controllers/chat.Controllers.js";
 
 const app = express();
-const isDeployment = true
+const isDeployment = false
 if(isDeployment){
     app.use(cors(
         {
@@ -14,6 +14,7 @@ if(isDeployment){
         }
     ))
 }else{
+    console.log("dito")
     app.use(cors())
 }
 
