@@ -5,18 +5,16 @@ import { useChatStore } from "../storage/chats";
 const VerticallyCenter=({isOpen, onClose, onOpen, image}) => {
   return (
     <>
-      <Modal size={{sm: "sm", md:"md", lg:"lg"}} onClose={onClose} isOpen={isOpen} isCentered>
-        <ModalOverlay />
+      <Modal size={{base: "xs", sm: "sm", md:"md", lg:"lg"}} onClose={onClose} isOpen={isOpen} isCentered>
         <ModalContent>
-          <ModalHeader alignSelf={"center"} fontSize={{sm:"23", md:"27", lg:"31"}}>Thinking</ModalHeader>
           <ModalBody>
             <VStack>
-              <Image src={image}/>
+              <Image src={image} boxSize={{base: '240px', md: '290px', lg:'340px'}}/>
               <Text fontSize={{
               base: "19",
               md:"21",
               lg:"23"
-              }}>Sandali lang!</Text>
+              }} textAlign={"center"}>Give me a sec, binubuo ko pa ang tamang words para makatulong sa'yo! 🕒✨</Text>
             </VStack>
             
           </ModalBody>
@@ -31,7 +29,7 @@ const Dashboard = () => {
   const [sentiment, setSentiment] = useState("greetings");
   const toast = useToast()
   const chatBoxRef = useRef(null); //para sa autoscroll
-  const [imageIndex, setImageIndex] = useState(null);
+  const [imageIndex, setImageIndex] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure(); // Modal state
 
   function getRandomInt(min, max) {
@@ -47,13 +45,14 @@ const Dashboard = () => {
   useEffect(() => {
     if (sentiment) {
       console.log("useEffect invoked due to sentiment change:", sentiment);
-      let newIndex = null;
+      let newIndex = 0;
       if (sentiment.includes("friendly")) newIndex = getRandomInt(0, friendlyImages.length - 1);
       else if (sentiment.includes("cheerful")) newIndex = getRandomInt(0, cheerfulImages.length - 1);
       else if (sentiment.includes("worried")) newIndex = getRandomInt(0, worriedImages.length - 1);
-      else if (sentiment.includes("greetings")) newIndex = 0;
       else if (sentiment.includes("advisory")) newIndex = getRandomInt(0, advisoryImages.length - 1);
       else if (sentiment.includes("supportive")) newIndex = getRandomInt(0, supportiveImages.length - 1);
+      else if (sentiment.includes("playful")) newIndex = getRandomInt(0, playfulImages.length - 1);
+      else if (sentiment.includes("romantic")) newIndex = getRandomInt(0, romanticImages.length - 1);
   
       console.log("Setting new imageIndex:", newIndex);
       setImageIndex(newIndex);
@@ -64,14 +63,22 @@ const Dashboard = () => {
     "cheerful_1.png",
     "cheerful_2.png",
     "cheerful_3.png",
+    "cheerful_4.png",
+    "cheerful_5.png",
   ]
   const thinkingImages = [
      "thinking_1.png",
     "thinking_2.png",
+    "thinking_3.png",
+    "thinking_4.png",
+    "thinking_5.png",
   ]
   const worriedImages = [
     "worried_1.png",
     "worried_2.png",
+    "worried_3.png",
+    "worried_4.png",
+    "worried_5.png",
   ]
   const greetings =  "greetings.png"
 
@@ -80,21 +87,38 @@ const Dashboard = () => {
     "friendly_2.png",
     "friendly_3.png",
     "friendly_4.png",
+    "friendly_5.png",
     
   ]
 
   const advisoryImages = [
     "advisory_1.png",
-    "advisory_2.png"
+    "advisory_2.png",
+    "advisory_3.png",
+    "advisory_4.png",
+    "advisory_5.png"
   ]
 
   const conflictedImage = "conflicted.png"
   const curiousImage =   "curious.png"
   const empatheticImage =  "empathetic_1.png"
   const excitedImage =   "excited_1.png"
-  const playfulImage =   "playful.png"
+  const playfulImages =   [
+    "playful.png",
+    "playful_2.png",
+    "playful_3.png",
+    "playful_4.png",
+    "playful_5.png",
+
+  ]
   const reassuringImage =   "reassuring.png"
-  const romanticImage =   "romantic.png"
+  const romanticImages =   [
+    "romantic.png",
+    "romantic_2.png",
+    "romantic_3.png",
+    "romantic_4.png",
+    "romantic_5.png",
+  ]  
   const supportiveImages =   [
     "supportive_1.png",
     "supportive_2.png",
@@ -191,12 +215,12 @@ const Dashboard = () => {
                 sentiment.toLowerCase().includes("cheerful") ? cheerfulImages[imageIndex] :
                 sentiment.toLowerCase().includes("supportive")? supportiveImages[imageIndex]:
                 sentiment.toLowerCase().includes("empathetic") ? empatheticImage:
-                sentiment.toLowerCase().includes("romantic") ? romanticImage:
+                sentiment.toLowerCase().includes("romantic") ? romanticImages[imageIndex]:
                 sentiment.toLowerCase().includes("advisory")? advisoryImages[imageIndex]:
                 sentiment.toLowerCase().includes("excited")? excitedImage :
                 sentiment.toLowerCase().includes("curious")? curiousImage :
                 sentiment.toLowerCase().includes("reassuring")? reassuringImage :
-                sentiment.toLowerCase().includes("playful")? playfulImage :
+                sentiment.toLowerCase().includes("playful")? playfulImages[imageIndex]:
                 sentiment.toLowerCase().includes("sympathetic")? sympatheticImage :
                 sentiment.toLowerCase().includes("conflicted")? conflictedImage :
                 sentiment.toLowerCase().includes("worried")? worriedImages[imageIndex] :
@@ -242,7 +266,7 @@ const Dashboard = () => {
       width={"full"}
       
     >
-      <HStack width="full" paddingBottom={1.5} marginTop={1.5} marginLeft={1.5} marginRight={1.5} bg={useColorModeValue("white","gray.800")}>
+      <HStack width="full" paddingBottom={1.5} paddingTop={1.5}  marginLeft={1.5} marginRight={1.5} bg={useColorModeValue("white","gray.800")}>
         <Textarea
           value={input}
           size="lg"
@@ -258,7 +282,7 @@ const Dashboard = () => {
         </Button>
       </HStack>
     </Flex>
-    <VerticallyCenter isOpen={isOpen} onClose={onClose} onOpen={onOpen} image={thinkingImages[1]}/>
+    <VerticallyCenter isOpen={isOpen} onClose={onClose} onOpen={onOpen} image={thinkingImages[imageIndex]}/>
   </Container>
   );
 };

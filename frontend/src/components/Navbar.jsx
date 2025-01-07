@@ -1,4 +1,4 @@
-import { Button, Container, Flex, HStack, Text, useColorMode, VStack } from '@chakra-ui/react'
+import { Button, Container, Flex, HStack, Image, Text, useColorMode, VStack } from '@chakra-ui/react'
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { IoMoon } from "react-icons/io5"
@@ -32,38 +32,46 @@ const Navbar = () => {
                     sm:"row"
                 }}
             >
-                <VStack spacing={-0.5}  >
+                <Link to={"/"}>
+                <HStack paddingTop={1.5}>
+<Image boxSize={{base:'90px'}} src="logo.png"/>
+                <VStack spacing={-0.5} marginBottom={0.5}>
+            
     <Text 
-        fontSize={{ sm: "50" }}
+        fontSize={{ base: "40", sm:"45", md:"50", lg:"55"
+         }}
         fontWeight={"bold"}
         textTransform={"uppercase"}
         bgGradient={"linear(to-r, cyan.400, blue.500)"}
         bgClip={"text"}
-        marginBottom={"-2.5"}
+        marginBottom={-2.5}
     >
-        <Link to={"/"}>Labubu</Link>
+        Labubu
     </Text>
     <Text
-        fontSize={{ sm: "20" }}
+        marginTop={-1}
+        fontSize={{ sm: "17", base:"15", md:"20", lg:"22" }}
         bgGradient={"linear(to-r, cyan.400, blue.500)"}
         bgClip={"text"}
         textAlign={"center"}
     >
-        <Link to={"/"}>Ang iyong Love Guru</Link>
+       Ang iyong Love Guru
     </Text>
 </VStack>
+</HStack>
+</Link>
 
                
-                <HStack spacing={2} alignItems={"center"}>
+                <HStack marginTop={{base:"1.5"}}spacing={2} alignItems={"center"}>
                     {isAuthenticated ? <></>:<Link to = {buttonLink}>
-                        <Button>
+                        <Button size={{sm:"sm", md:"md", lg:"lg"}}>
                             <Text>{buttonText}</Text>
                         </Button>
                     </Link>}
-                    <Button onClick={toggleColorMode}>
-                        {colorMode === "light" ? <IoMoon />: <LuSun size="20"/>}
+                    <Button onClick={toggleColorMode} size={{base: "sm",sm:"sm", md:"md", lg:"lg"}}>
+                        {colorMode === "light" ? <IoMoon />: <LuSun />}
                     </Button>
-                    {!isAuthenticated ? <></>:<Button onClick={handleLogout}><Text>Log Out</Text></Button>}
+                    {!isAuthenticated ? <></>:<Button onClick={handleLogout} size={{base:"sm", sm:"sm", md:"md", lg:"lg"}}><Text>Log Out</Text></Button>}
                 </HStack>
 
             </Flex>
