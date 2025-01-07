@@ -1,10 +1,11 @@
-import { Button, Container, Flex, HStack, Image, Text, useColorMode, VStack } from '@chakra-ui/react'
+import { Button, Container, Flex, HStack, Image, Text, useBreakpointValue, useColorMode, VStack } from '@chakra-ui/react'
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { IoMoon } from "react-icons/io5"
 import { LuSun } from "react-icons/lu"
 import { useAuth } from '../contexts/AuthContext'
 import { useChatStore } from '../storage/chats'
+import { LuLogOut } from "react-icons/lu";
 
 const Navbar = () => {
     const {colorMode, toggleColorMode} = useColorMode();
@@ -22,8 +23,14 @@ const Navbar = () => {
     }]);
     };
 
+    const buttonContent = useBreakpointValue({
+        base: <LuLogOut/>, // Icon for smaller screens
+        sm: <Text>Log Out</Text>,
+        md: <Text>Log Out</Text>,     // Text for medium and larger screens
+    });
+
     return (
-        <Container maxW={"full"} px={4} mb={4} >
+        <Container maxW={"full"} px={4} mb={{base:"2",sm:"3", md:"4", lg:"4"}} >
             <Flex 
                 alignItems={"center"}
                 justifyContent={"space-between"}
@@ -34,7 +41,7 @@ const Navbar = () => {
             >
                 <Link to={"/"}>
                 <HStack paddingTop={1.5}>
-<Image boxSize={{base:'90px'}} src="logo.png"/>
+<Image boxSize={{base:'80px', sm:"85px", md:"95px", lg:"100px"}} src="logo.png"/>
                 <VStack spacing={-0.5} marginBottom={0.5}>
             
     <Text 
@@ -71,7 +78,7 @@ const Navbar = () => {
                     <Button onClick={toggleColorMode} size={{base: "sm",sm:"sm", md:"md", lg:"lg"}}>
                         {colorMode === "light" ? <IoMoon />: <LuSun />}
                     </Button>
-                    {!isAuthenticated ? <></>:<Button onClick={handleLogout} size={{base:"sm", sm:"sm", md:"md", lg:"lg"}}><Text>Log Out</Text></Button>}
+                    {!isAuthenticated ? <></>:<Button onClick={handleLogout} size={{base:"sm", sm:"sm", md:"md", lg:"lg"}}>{buttonContent}</Button>}
                 </HStack>
 
             </Flex>

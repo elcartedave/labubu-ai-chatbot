@@ -187,7 +187,7 @@ const Dashboard = () => {
 
   return (
     <Container  maxW={"full"}  maxHeight="100vh" display="flex" flexDirection="column">
-    <Box flex="1" overflowY="auto" ref={chatBoxRef} pb={200}  sx={{
+    <Box flex="1" overflowY="auto" ref={chatBoxRef} pb={{base:"230",sm:"220",md:"210",lg:"200"}}  sx={{
     "::-webkit-scrollbar": {
       width: "4px", // Set the width of the scrollbar
     },
@@ -266,10 +266,10 @@ const Dashboard = () => {
       width={"full"}
       
     >
-      <HStack width="full" paddingBottom={1.5} paddingTop={1.5}  marginLeft={1.5} marginRight={1.5} bg={useColorModeValue("white","gray.800")}>
+      <HStack width="full" paddingBottom={1.5} paddingTop={1.5} marginTop={1.5} marginLeft={1.5} marginRight={1.5} bg={useColorModeValue("white","gray.800")}>
         <Textarea
           value={input}
-          size="lg"
+          size={{base:"sm", sm:"sm", md:"md",lg:"lg"}}
           resize="none"
           placeholder="Enter your concerns here"
           onChange={(e) => setInput(e.target.value)}
