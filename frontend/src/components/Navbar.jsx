@@ -71,8 +71,8 @@ const Navbar = () => {
                
                 <HStack marginTop={{base:"1.5"}}spacing={2} alignItems={"center"}>
                     {isAuthenticated ? <></>:<Link to = {buttonLink}>
-                        <Button size={{sm:"sm", md:"md", lg:"lg"}}>
-                            <Text>{buttonText}</Text>
+                        <Button size={{base:"sm",sm:"sm", md:"md", lg:"lg"}}>
+                            {buttonText}
                         </Button>
                     </Link>}
                     <Button onClick={toggleColorMode} size={{base: "sm",sm:"sm", md:"md", lg:"lg"}}>
