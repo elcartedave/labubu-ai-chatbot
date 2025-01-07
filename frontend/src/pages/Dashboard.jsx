@@ -269,7 +269,7 @@ const Dashboard = () => {
       <HStack width="full" paddingBottom={1.5} paddingTop={1.5} marginTop={1.5} marginLeft={1.5} marginRight={1.5} bg={useColorModeValue("white","gray.800")}>
         <Textarea
           value={input}
-          size={{base:"sm", sm:"sm", md:"md",lg:"lg"}}
+          size={'lg'}
           resize="none"
           placeholder="Enter your concerns here"
           onChange={(e) => setInput(e.target.value)}
