@@ -228,11 +228,27 @@ const Dashboard = () => {
                 friendlyImages[1]
             } 
            boxSize={{base: '180px', md: '220px', lg:'270px'}}/> 
-            <Text fontSize={{
-              base: "17",
-              md:"19",
-              lg:"21"
-              }} fontFamily={"arial"}>{message.content}</Text>
+           <ReactMarkdown
+  components={{
+    p: ({ children }) => (
+      <Text fontSize={{
+        base: "17",
+        md: "19",
+        lg: "21"
+      }} fontFamily="arial" mb={2}>
+        {children}
+      </Text>
+    ),
+    strong: ({ children }) => (
+      <Text as="span" fontWeight="bold">
+        {children}
+      </Text>
+    ),
+    // Handle other elements if needed
+  }}
+>
+  {message.content}
+</ReactMarkdown>
           </VStack>
           </Center> 
         </>:
@@ -251,54 +267,26 @@ const Dashboard = () => {
             boxShadow="sm"
           >
              <ReactMarkdown
-                    components={{
-                      // Custom styling for markdown elements
-                      p: ({ children }) => (
-                        <Text
-                          fontSize={{
-                            base: "17",
-                            md: "19",
-                            lg: "21",
-                          }}
-                          fontFamily="arial"
-                          mb={2}
-                        >
-                          {children}
-                        </Text>
-                      ),
-                      h1: ({ children }) => (
-                        <Text
-                          fontSize={{
-                            base: "24",
-                            md: "28",
-                            lg: "32",
-                          }}
-                          fontFamily="arial"
-                          fontWeight="bold"
-                          mb={4}
-                        >
-                          {children}
-                        </Text>
-                      ),
-                      h2: ({ children }) => (
-                        <Text
-                          fontSize={{
-                            base: "20",
-                            md: "24",
-                            lg: "28",
-                          }}
-                          fontFamily="arial"
-                          fontWeight="bold"
-                          mb={3}
-                        >
-                          {children}
-                        </Text>
-                      ),
-                      // Add more custom components as needed
-                    }}
-                  >
-                    {message.content}
-                  </ReactMarkdown>
+  components={{
+    p: ({ children }) => (
+      <Text fontSize={{
+        base: "17",
+        md: "19",
+        lg: "21"
+      }} fontFamily="arial" mb={2}>
+        {children}
+      </Text>
+    ),
+    strong: ({ children }) => (
+      <Text as="span" fontWeight="bold">
+        {children}
+      </Text>
+    ),
+    // Handle other elements if needed
+  }}
+>
+  {message.content}
+</ReactMarkdown>
           </Box>
         </Flex>)
          
