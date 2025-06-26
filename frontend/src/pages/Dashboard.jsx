@@ -1,6 +1,7 @@
 import { Box, Button, Center, Container, Flex, HStack, Image, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Text, Textarea, useColorModeValue, useDisclosure, useToast, VStack } from "@chakra-ui/react";
 import React, {  useEffect, useRef, useState } from "react";
 import { useChatStore } from "../storage/chats";
+import ReactMarkdown from "react-markdown";
 
 const VerticallyCenter=({isOpen, onClose, onOpen, image}) => {
   return (
@@ -249,8 +250,55 @@ const Dashboard = () => {
             borderRadius="md"
             boxShadow="sm"
           >
-              <Text fontSize={17}
-              >{message.content}</Text>
+             <ReactMarkdown
+                    components={{
+                      // Custom styling for markdown elements
+                      p: ({ children }) => (
+                        <Text
+                          fontSize={{
+                            base: "17",
+                            md: "19",
+                            lg: "21",
+                          }}
+                          fontFamily="arial"
+                          mb={2}
+                        >
+                          {children}
+                        </Text>
+                      ),
+                      h1: ({ children }) => (
+                        <Text
+                          fontSize={{
+                            base: "24",
+                            md: "28",
+                            lg: "32",
+                          }}
+                          fontFamily="arial"
+                          fontWeight="bold"
+                          mb={4}
+                        >
+                          {children}
+                        </Text>
+                      ),
+                      h2: ({ children }) => (
+                        <Text
+                          fontSize={{
+                            base: "20",
+                            md: "24",
+                            lg: "28",
+                          }}
+                          fontFamily="arial"
+                          fontWeight="bold"
+                          mb={3}
+                        >
+                          {children}
+                        </Text>
+                      ),
+                      // Add more custom components as needed
+                    }}
+                  >
+                    {message.content}
+                  </ReactMarkdown>
           </Box>
         </Flex>)
          
