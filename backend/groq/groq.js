@@ -1,7 +1,7 @@
 import Groq from "groq-sdk";
 
 const groq = new Groq({
-  apiKey: "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",
+  apiKey: process.env.CLIENT_KEY,
 });
 
 export async function main(messages) {
